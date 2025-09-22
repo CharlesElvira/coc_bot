@@ -2,7 +2,7 @@ import random
 import time
 import threading
 import sys
-from image_utils import read_trophies
+from image_utils import calibrate_coin_position, calibrate_elixir_position, calibrate_trophy_position, read_coins, read_elixir, read_trophies, test_coin_detection, test_elixir_detection, test_trophy_detection
 from game_actions import drop_trophies, find_attack
 from adb_utils import adb_tap
 from image_utils import wait_for_template
@@ -83,10 +83,24 @@ def normal_mode():
     """Function to handle the normal mode."""
     iterations = random.randint(25, 35)
     print(f"Starting main loop for {iterations} iterations.")
+    test_trophy_detection()
+
+    if calibrate_trophy_position():
+        print("Calibration successful")
+    if   calibrate_coin_position() :
+        print("Calibration of coins successful")
+    if   calibrate_elixir_position() :
+        print("Calibration of Elixir successful")
+    
     for i in range(iterations):
         
         attack_btn = wait_for_template("templates/attack_button.png", timeout=10)
+        
         trophies = read_trophies()
+        coins = read_coins()
+        elixir = read_elixir()
+
+        calibrate_elixir_position() 
         if trophies is not None:
             print(f"Current Trophies: {trophies}")
             if trophies > 4850 and trophies < 5200:
