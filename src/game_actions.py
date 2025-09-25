@@ -57,7 +57,7 @@ def drop_trophies():
         timeout = 180
         start_time = time.time()
         while time.time() - start_time < timeout:
-            ret_home = wait_for_template("templates/return_home.png", timeout=3)
+            ret_home = wait_for_template("/src/templates/return_home.png", timeout=3)
             if ret_home:
                 print("Return home detected at:", ret_home)
                 time.sleep(random.uniform(0, 0.5))
@@ -76,7 +76,7 @@ def find_attack(drop=False):
     while True:
         time.sleep(random.uniform(0, 1))
         print("Searching for 'attack' button...")
-        attack_btn = wait_for_template("templates/attack_button.png", timeout=10)
+        attack_btn = wait_for_template("src/templates/attack_button.png", timeout=10)
         if attack_btn:
             print("Found attack button at:", attack_btn)
             jitter_x = random.randint(-50, 50)
@@ -92,7 +92,7 @@ def find_attack(drop=False):
             time.sleep(random.uniform(0, 1))
 
         print("Searching for 'find match' button...")
-        match_btn = wait_for_template("templates/find_match.png", timeout=3)
+        match_btn = wait_for_template("src/templates/find_match.png", timeout=3)
         if match_btn:
             print("Found 'find match' button at:", match_btn)
             for _ in range(random.randint(1, 3)):
@@ -122,7 +122,7 @@ def find_attack(drop=False):
                     random_y = random.randint(100, 500)
                     adb_tap(random_x, random_y)
                     time.sleep(random.uniform(0, 1))
-            next_btn = wait_for_template("templates/next_button.png", timeout=20)
+            next_btn = wait_for_template("src/templates/next_button.png", timeout=20)
             if next_btn:
                 print("Clicking next button at:", next_btn)
                 time.sleep(random.uniform(0, 0.5))
@@ -145,7 +145,7 @@ def drop_attack():
     attack_strat = random.randint(1, 3)
     left_x, left_y, right_x, right_y, mid_x, mid_y, rage_mid, rage_top, rage_bot, rage2_right_up, rage2_right_down = get_drop_coords(attack_strat)
 
-    next_btn = wait_for_template("templates/next_button.png", timeout=15)
+    next_btn = wait_for_template("/src/templates/next_button.png", timeout=15)
 
     adb_tap(1500 + random.randint(-7, 7), 970 + random.randint(-7, 7))
 
@@ -159,7 +159,7 @@ def drop_attack():
     jitter_y = random.randint(-20, 20)
     adb_tap(140 + jitter_x, 805 + jitter_y)
 
-    okay = wait_for_template("templates/okay.png", timeout=5)
+    okay = wait_for_template("/src/templates/okay.png", timeout=5)
     if okay:
         print("Found Okay button at:", okay)
         time.sleep(random.uniform(0, 0.5))
@@ -174,7 +174,7 @@ def attack():
     attack_strat = random.randint(2, 3)
     left_x, left_y, right_x, right_y, mid_x, mid_y, rage_mid, rage_top, rage_bot, rage2_right_up, rage2_right_down = get_drop_coords(attack_strat)
     
-    next_btn = wait_for_template("templates/next_button.png", timeout=15)
+    next_btn = wait_for_template("/src/templates/next_button.png", timeout=15)
 
     jitter_x = random.randint(-40, 40)
     jitter_y = random.randint(-40, 40)

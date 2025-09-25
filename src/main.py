@@ -2,7 +2,7 @@ import random
 import time
 from image_utils import read_trophies
 from game_actions import drop_trophies, find_attack, drop_attack
-from adb_utils import adb_tap
+from adb_utils import adb_tap, zoom_in, zoom_out
 from image_utils import wait_for_template
 from modes import get_user_input_with_timeout, force_drop_mode, force_loot_mode, normal_mode, legends_mode
 
@@ -28,6 +28,9 @@ def main():
             force_loot_mode()
         elif mode_input in ["3", "normal"]:
             print("Selected mode: Normal")
+            zoom_out()
+            zoom_in()
+            zoom_out()
             normal_mode()
         elif mode_input in ["4", "legends"]:
             print("Selected mode: Legends")
@@ -37,6 +40,7 @@ def main():
             normal_mode()
     else:
         print("No selection made. Defaulting to Normal mode.")
+        zoom_out()
         normal_mode()
 
 if __name__ == "__main__":

@@ -47,9 +47,9 @@ def find_trophy_coordinates(screen_image_path="trophy_screen.png", template_path
 
             # Calculate rectangle to the right of trophy symbol
             # 40 pixels high, 100 pixels wide, positioned to the right
-            x1 = trophy_x + template_w + 35  # 5 pixel gap from trophy
+            x1 = trophy_x + template_w + 35  # 35 pixel gap from trophy
             y1 = trophy_y + (template_h - 40) // 2  # Center vertically
-            x2 = x1 + 90  # 100 pixels wide
+            x2 = x1 + 90  # 90 pixels wide
             y2 = y1 + 40   # 40 pixels high
 
             print(f"Trophy symbol found at ({trophy_x}, {trophy_y}) with confidence {max_val:.3f}")
@@ -423,10 +423,22 @@ def read_coins():
     roi = img[y1:y2, x1:x2]
 
     # Convert to grayscale
-    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    #gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    # Create a black overlay with the same dimensions as your image
+    #overlay = numpy.zeros_like(roi)  # Creates black image same size as roi
+
+    # Blend the original image with the black overlay (80% black, 20% original)
+    #gray = cv2.addWeighted(roi, 0.2, overlay, 0.8, 0)
+    #gray = cv2.equalizeHist(gray)
 
     # Apply threshold
-    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+    #
+    # Create a black overlay with the same dimensions as your image
+    overlay = numpy.zeros_like(roi)  # Creates black image same size as roi
+
+    # Blend the original image with the black overlay (80% black, 20% original)
+    result = cv2.addWeighted(roi, 0.2, overlay, 0.8, 0)
+    _, thresh = cv2.threshold(result, 50, 255, cv2.THRESH_BINARY)
 
     # Use Tesseract to read the text
     config_ocr = "--psm 7 -c tessedit_char_whitelist=0123456789"
@@ -667,11 +679,11 @@ def read_elixir():
     # Crop the region of interest (ROI)
     roi = img[y1:y2, x1:x2]
 
-    # Convert to grayscale
-    gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+    overlay = numpy.zeros_like(roi)  # Creates black image same size as roi
 
-    # Apply threshold
-    _, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY)
+    # Blend the original image with the black overlay (80% black, 20% original)
+    result = cv2.addWeighted(roi, 0.2, overlay, 0.8, 0)
+    _, thresh = cv2.threshold(result, 50, 255, cv2.THRESH_BINARY)
 
     # Use Tesseract to read the text
     config_ocr = "--psm 7 -c tessedit_char_whitelist=0123456789"

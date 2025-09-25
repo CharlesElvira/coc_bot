@@ -61,7 +61,7 @@ def force_loot_mode():
         timeout = 180
         start_time = time.time()
         while time.time() - start_time < timeout:
-            ret_home = wait_for_template("templates/return_home.png", timeout=3)
+            ret_home = wait_for_template("src/templates/return_home.png", timeout=3)
             if ret_home:
                 print("Return home detected at:", ret_home)
                 time.sleep(random.uniform(0.1, 0.5))
@@ -83,26 +83,24 @@ def normal_mode():
     """Function to handle the normal mode."""
     iterations = random.randint(25, 35)
     print(f"Starting main loop for {iterations} iterations.")
-    test_trophy_detection()
-
-    if calibrate_trophy_position():
-        print("Calibration successful")
-    if   calibrate_coin_position() :
-        print("Calibration of coins successful")
-    if   calibrate_elixir_position() :
-        print("Calibration of Elixir successful")
+    
+    calibrate_coin_position()
+    calibrate_elixir_position()
+    calibrate_trophy_position()
     
     for i in range(iterations):
-        
-        attack_btn = wait_for_template("templates/attack_button.png", timeout=10)
-        
+
         trophies = read_trophies()
         coins = read_coins()
-        elixir = read_elixir()
+        elixir = read_elixir()       
 
-        calibrate_elixir_position() 
+        attack_btn = wait_for_template("src/templates/attack_button.png", timeout=10)
+        
         if trophies is not None:
             print(f"Current Trophies: {trophies}")
+            print(f"Current Coins: {coins}")
+            print(f"Current Elixir: {elixir}")
+
             if trophies > 4850 and trophies < 5200:
                 drop_trophies()
                 continue
@@ -119,7 +117,7 @@ def normal_mode():
         timeout = 180
         start_time = time.time()
         while time.time() - start_time < timeout:
-            ret_home = wait_for_template("templates/return_home.png", timeout=3)
+            ret_home = wait_for_template("src/templates/return_home.png", timeout=3)
             if ret_home:
                 print("Return home detected at:", ret_home)
                 time.sleep(random.uniform(0.1, 0.5))
